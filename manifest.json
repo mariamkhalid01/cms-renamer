@@ -3,6 +3,11 @@
   "name": "CMS Lecture Renamer",
   "version": "1.0",
   "description": "Rename downloaded lectures based on CMS title",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
   "permissions": [
     "downloads"
   ],
