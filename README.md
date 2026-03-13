@@ -1,3 +1,7 @@
+<p align="center">
+   <img src="assets/logo.png" alt="CMS Lecture Renamer" width="480"/>
+</p>
+
 # CMS Lecture Renamer
 
 A lightweight Chrome extension that automatically renames downloaded lecture files to their actual lecture title instead of the random ID the CMS assigns them.
