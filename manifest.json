@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "CMS Lecture Renamer",
+  "version": "1.0",
+  "description": "Rename downloaded lectures based on CMS title",
+  "permissions": [
+    "downloads"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
