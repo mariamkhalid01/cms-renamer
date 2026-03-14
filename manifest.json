@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CMS Lecture Renamer",
-  "version": "1.0",
-  "description": "Rename downloaded lectures based on CMS title",
+  "version": "1.1",
+  "description": "Rename downloaded lectures based on CMS title (GIU CMS focused, Chrome + Edge)",
   "icons": {
     "16": "assets/icon16.png",
     "48": "assets/icon48.png",
