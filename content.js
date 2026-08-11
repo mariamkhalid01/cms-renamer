@@ -48,7 +48,7 @@ function extractLabelFromContainer(container, skipEl) {
                 if (!parent) return NodeFilter.FILTER_REJECT;
 
                 // Skip the button subtree
-                if (skipEl && (skipEl === parent || skipEl.contains(parent) || parent.contains(skipEl))) {
+                if (skipEl && (skipEl === parent || skipEl.contains(parent))) {
                     return NodeFilter.FILTER_REJECT;
                 }
 
@@ -77,12 +77,25 @@ function extractLabelFromContainer(container, skipEl) {
         }
     }
 
+    // Fallback: line-by-line scan from visible text in case text-node traversal misses.
+    if (!best) {
+        const lines = (container.innerText || '')
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter((line) => line.length >= 4)
+            .filter((line) => !isGeneric(line));
+
+        // Prefer lecture/module-like lines first.
+        const preferred = lines.find((line) => /(^\d+\s*[-:]\s*)|(lecture|module|wk\s*\d+)/i.test(line));
+        best = preferred || lines[0] || null;
+    }
+
     return best;
 }
 
 /** Generic button/UI labels that are definitely NOT a lecture name. */
 function isGeneric(text) {
-    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|\d+)$/i
+    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|order\s*\(?\s*\d+\s*\)?|\d+)$/i
         .test(text.trim());
 }
 
@@ -94,6 +107,10 @@ document.addEventListener('click', function (e) {
 
     const name = resolveDownloadName(link);
     if (name) {
-        chrome.runtime.sendMessage({ type: 'PENDING_DOWNLOAD_NAME', name });
+        chrome.runtime.sendMessage({
+            type: 'PENDING_DOWNLOAD_NAME',
+            name,
+            url: link.href || null
+        });
     }
 }, true);
