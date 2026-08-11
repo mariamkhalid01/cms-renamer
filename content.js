@@ -38,6 +38,9 @@ function resolveDownloadName(clickedEl) {
  * We skip the subtree that contains `skipEl` (the button itself).
  */
 function extractLabelFromContainer(container, skipEl) {
+    const formValue = extractValueFromControls(container, skipEl);
+    if (formValue) return formValue;
+
     // Collect all text nodes and inline/block elements that are NOT buttons/inputs
     const walker = document.createTreeWalker(
         container,
@@ -93,9 +96,40 @@ function extractLabelFromContainer(container, skipEl) {
     return best;
 }
 
+/**
+ * Prefer an explicit user-entered value from nearby form controls.
+ */
+function extractValueFromControls(container, skipEl) {
+    const controls = container.querySelectorAll(
+        'input:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select, [contenteditable="true"]'
+    );
+
+    let best = null;
+
+    controls.forEach((control) => {
+        if (skipEl && (skipEl === control || skipEl.contains(control))) return;
+
+        let value = '';
+        if (control.matches('[contenteditable="true"]')) {
+            value = control.innerText || control.textContent || '';
+        } else if ('value' in control) {
+            value = control.value || '';
+        }
+
+        value = value.trim();
+        if (!value || isGeneric(value)) return;
+
+        if (!best || value.length > best.length) {
+            best = value;
+        }
+    });
+
+    return best;
+}
+
 /** Generic button/UI labels that are definitely NOT a lecture name. */
 function isGeneric(text) {
-    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|order\s*\(?\s*\d+\s*\)?|\d+)$/i
+    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|order\s*\(?\s*\d+\s*\)?|\d+|order)$/i
         .test(text.trim());
 }
 
