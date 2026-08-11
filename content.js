@@ -129,7 +129,7 @@ function extractValueFromControls(container, skipEl) {
 
 /** Generic button/UI labels that are definitely NOT a lecture name. */
 function isGeneric(text) {
-    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|order\s*\(?\s*\d+\s*\)?|\d+|order|edit|save|update|create|add|remove|delete|cancel|back|next|previous|submit|clear|search|reset)$/i
+    return /^(download(\s+content)?|watch\s+video|report(\s+and\s+issue)?|view|open|click\s+here|here|file|attachment|content|count\s+rated.*|order\s*\(?\s*\d+\s*\)?|\d+|order)$/i
         .test(text.trim());
 }
 
