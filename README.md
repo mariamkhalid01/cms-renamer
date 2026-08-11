@@ -88,19 +88,6 @@ cms-renamer/
 └── README.md
 ```
 
-## Compatibility
-
-Mainly targeted at **GIU CMS** (and tested there), where download links are rendered in a card-based layout. The DOM traversal logic is flexible enough to work on similar university CMS platforms.
-
-Browser compatibility:
-- Microsoft Edge (Chromium)
-- Google Chrome
-
-If your CMS has a different structure and filenames still come out wrong, open an issue with a screenshot of the DevTools HTML for the download button area.
-
-## Contributing
-
-Pull requests are welcome. If you're from a different university and your CMS uses a different structure, contributions that make the selector logic more universal are especially appreciated.
 
 ## License
 
